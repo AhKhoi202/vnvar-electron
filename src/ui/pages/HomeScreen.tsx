@@ -1,5 +1,5 @@
 import React from "react";
-import RTSPInput from "../components/RTSPInput";
+import RTSPPlayer from "../components/RTSPPlayer";
 
 const HomeScreen: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const HomeScreen: React.FC = () => {
           justifyContent: "center",
         }}
       >
-        <RTSPInput />
+        <RTSPPlayer />
       </div>
     </main>
   );

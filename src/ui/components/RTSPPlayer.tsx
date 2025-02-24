@@ -1,32 +1,36 @@
-import React, { useEffect, useRef } from "react";
-import videojs from "video.js";
-import "video.js/dist/video-js.css";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 const RTSPPlayer: React.FC = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [rtspUrl, setRtspUrl] = useState("");
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!videoRef.current) return;
-    console.log("RTSPPlayer");
-    const player = videojs(videoRef.current, {
-      controls: true,
-      autoplay: true,
-      responsive: true,
-      fluid: true,
-      sources: [
-        {
-          src: "file://" + window.electron.getHLSPath(), // Get the HLS file dynamically
-          type: "application/x-mpegURL",
-        },
-      ],
-    });
+  const handleConfirm = () => {
+    if (rtspUrl.trim() !== "" && rtspUrl.startsWith("rtsp://")) {
+      navigate(`/liveScreenws?rtsp=${encodeURIComponent(rtspUrl)}`);
+    }
+    else {
+      throw new Error("Not support RTSP link")
+    }
+  }
 
-    return () => {
-      player.dispose();
-    };
-  }, []);
-
-  return <video ref={videoRef} className="video-js vjs-default-skin" />;
+  return (
+    <div style={{ textAlign: "center", padding: "20px" }}>
+      <label htmlFor="rtsp-input">Nhập URL RTSP</label>
+      <input
+        id="rtsp-input"
+        type="text"
+        placeholder="rtsp://your-camera-url"
+        value={rtspUrl}
+        onChange={(e) => setRtspUrl(e.target.value)}
+        style={{ width: "300px", padding: "5px" }}
+      />
+      <button onClick={handleConfirm} style={{ marginLeft: "10px" }}>
+        Xác nhận
+      </button>
+    </div>
+  );
 };
 
 export default RTSPPlayer;

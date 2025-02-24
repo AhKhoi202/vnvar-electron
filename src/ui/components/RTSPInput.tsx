@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import html2canvas from "html2canvas";
+
 
 const RTSPInput = () => {
+
   const [rtspUrl, setRtspUrl] = useState("");
   const navigate = useNavigate();
 
@@ -29,6 +32,8 @@ const RTSPInput = () => {
       <button onClick={handleConfirm} style={{ marginLeft: "10px" }}>
         Xác nhận
       </button>
+
+      
     </div>
   );
 };
